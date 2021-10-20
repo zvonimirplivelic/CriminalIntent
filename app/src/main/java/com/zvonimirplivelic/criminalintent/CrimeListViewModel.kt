@@ -1,17 +1,25 @@
 package com.zvonimirplivelic.criminalintent
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import java.time.Instant
+import java.time.LocalDate
+import java.util.*
+import kotlin.coroutines.coroutineContext
 
-class CrimeListViewModel: ViewModel() {
+class CrimeListViewModel : ViewModel() {
 
-    val crimes = mutableListOf<Crime>()
-
+    private val crimeRepository = CrimeRepository.get()
+    val crimeListLiveData = crimeRepository.getCrimes()
     init {
-        for (i in 0 until 100) {
-            val crime = Crime()
-            crime.title = "Crime #$i"
-            crime.isSolved = i % 2 == 0
-            crimes += crime
+        viewModelScope.launch {
+            insertData()
         }
+    }
+
+    private suspend fun insertData() {
+        val crime = Crime(UUID.randomUUID(), "prvi", Date(), false)
+        crimeRepository.insertCrime(crime)
     }
 }
