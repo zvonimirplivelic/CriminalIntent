@@ -19,7 +19,7 @@ class CrimeListViewModel : ViewModel() {
     }
 
     private suspend fun insertData() {
-        val crime = Crime(UUID.randomUUID(), "prvi", Date(), false)
+        val crime = Crime(UUID.randomUUID(), "prvi", Date(), true)
         crimeRepository.insertCrime(crime)
     }
 }
