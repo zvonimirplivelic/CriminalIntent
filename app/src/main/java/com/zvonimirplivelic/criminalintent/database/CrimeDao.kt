@@ -1,10 +1,7 @@
 package com.zvonimirplivelic.criminalintent.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.zvonimirplivelic.criminalintent.Crime
 import java.util.*
 
@@ -16,6 +13,9 @@ interface CrimeDao {
     @Query("SELECT * FROM crime WHERE id=(:id)")
     fun getCrime(id: UUID): LiveData<Crime?>
 
+    @Update
+    fun updateCrime(crime: Crime)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCrime(crime: Crime)
+    fun addCrime(crime: Crime)
 }
